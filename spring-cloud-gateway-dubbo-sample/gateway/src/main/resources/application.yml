@@ -3,12 +3,6 @@
 spring:
   application:
     name: gateway
-  dubbo:
-    rewriteRender: velocity
-    variables:
-      - body
-      - header
-      - cookie
   cloud:
     gateway:
       routes:
@@ -23,14 +17,14 @@ spring:
               parameterTypes:
                 - java.lang.String
         - id: rewrite
-          uri: dubbo://dubbo-provider/com.github.spring.cloud.dubbo.sample.provider.EchoService/request
+          uri: dubbo://dubbo-provider/com.github.leecho.spring.cloud.dubbo.sample.provider.EchoService/request
           metadata:
             dubbo:
               group: default
               version: 1.0
               parameterTypes:
-                - com.github.spring.cloud.dubbo.sample.provider.Request
-                - com.github.spring.cloud.dubbo.sample.provider.Action
+                - com.github.leecho.spring.cloud.dubbo.sample.provider.Request
+                - com.github.leecho.spring.cloud.dubbo.sample.provider.Action
               rewrite:
                 request:
                   message: "#body['request']['message']"
@@ -50,14 +44,14 @@ spring:
           predicates:
             - Path=/rewrite/**
         - id: request
-          uri: dubbo://dubbo-provider/com.github.spring.cloud.dubbo.sample.provider.EchoService/request
+          uri: dubbo://dubbo-provider/com.github.leecho.spring.cloud.dubbo.sample.provider.EchoService/request
           metadata:
             dubbo:
               group: default
               version: 1.0
               parameterTypes:
-                - com.github.spring.cloud.dubbo.sample.provider.Request
-                - com.github.spring.cloud.dubbo.sample.provider.Action
+                - com.github.leecho.spring.cloud.dubbo.sample.provider.Request
+                - com.github.leecho.spring.cloud.dubbo.sample.provider.Action
           predicates:
             - Path=/request/**
       discovery:
@@ -74,7 +68,4 @@ dubbo:
     port: -1
 logging:
   level:
-    org.springframework.web: debug
-    org.springframework.cloud: trace
-    org.springframework.http: debug
     com.github: debug
