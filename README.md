@@ -1,6 +1,7 @@
-#Spring Cloud Gateway Dubbo
+# Spring Cloud Gateway Dubbo
 # 工程简介
-Spring Cloud Gateway Dubbo 用于再SpringCloudGateway中集成Dubbo接口调用
+Spring Cloud Gateway Dubbo 基于Spring Cloud Alibaba的SpringCloud集成Dubbo的方案之上开发，
+用于在SpringCloudGateway中直接调用Dubbo接口，可以减少使用Web接口来实现与gateway对接。
 ## 架构
 TODO 待补充
 ## 已实现功能
@@ -30,8 +31,8 @@ TODO 待补充
 ## 启动
 分别启动：
 ```java
-GatewayApplication
-DubboProviderApplication
+com.github.leecho.spring.cloud.dubbo.sample.gateway.GatewayApplication
+com.github.leecho.spring.cloud.dubbo.sample.provider.DubboProviderApplication
 ```
 ## 测试
 在idea中执行http文件：gateway.http
@@ -122,7 +123,7 @@ public DubboGenericServiceCache dubboGenericServiceCache() {
 ```
 
 ## 已知问题
-* 配置Dubbo重写参数时，参数为list时geteway路由会解析成map
+* 配置Dubbo重写参数时，参数类型为list时geteway路由会解析成map
 * 尚未经过大规模测试，在生产环境上使用请先进行测试，欢迎大家测试后提供测试结果及改进意见
 
 ## 交流
