@@ -1,0 +1,66 @@
+POST http://localhost:8085/request
+Content-Type: application/json
+cookie: JSESSIONID=1AA4D275F436A3DB4723A572B943947F
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9
+
+{
+  "request": {
+    "message": "request",
+    "target": {
+      "name": "provider",
+      "id": "provider"
+    },
+    "date": "2021-07-01 00:00:00",
+    "attributes": [
+      "attr1",
+      "attr2",
+      "attr3"
+    ]
+  },
+  "action": {
+    "name": "request",
+    "parameters": {
+      "param1": "param1"
+    }
+  }
+}
+
+###
+
+POST http://localhost:8085/rewrite
+Content-Type: application/json
+cookie: JSESSIONID=1AA4D275F436A3DB4723A572B943947F
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9
+
+{
+  "request": {
+    "message": "request",
+    "target": {
+      "name": "provider",
+      "id": "provider"
+    },
+    "date": "2021-07-01 00:00:00",
+    "attributes": [
+      "attr1",
+      "attr2",
+      "attr3"
+    ]
+  },
+  "action": {
+    "name": "request",
+    "parameters": {
+      "param1": "param1"
+    }
+  }
+}
+
+
+###
+POST http://localhost:8085/echo
+Content-Type: application/json
+
+[
+  "foo"
+]
+
+###

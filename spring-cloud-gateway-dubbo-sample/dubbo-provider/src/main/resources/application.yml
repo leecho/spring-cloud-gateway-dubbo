@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: dubbo-provider
+
+dubbo:
+  cloud:
+    subscribed-services: dubbo-provider
+  protocol:
+    id: dubbo
+    name: dubbo
+    port: -1
+  scan:
+    base-packages: com.github.spring
+  registry:
+    address: spring-cloud://localhost

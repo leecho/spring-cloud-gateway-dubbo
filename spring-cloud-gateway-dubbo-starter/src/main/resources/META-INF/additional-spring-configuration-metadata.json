@@ -1,0 +1,16 @@
+{
+  "properties": [
+    {
+      "name": "spring.cloud.gateway.dubbo.rewrite-render",
+      "type": "java.lang.String",
+      "defaultValue": "spel",
+      "description": "rewrite dubbo parameter render."
+    },
+    {
+      "name": "spring.cloud.gateway.dubbo.variables",
+      "type": "java.util.List",
+      "defaultValue": "",
+      "description": "rewrite dubbo parameter render."
+    }
+  ]
+}

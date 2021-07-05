@@ -1,0 +1,80 @@
+
+
+spring:
+  application:
+    name: gateway
+  dubbo:
+    rewriteRender: velocity
+    variables:
+      - body
+      - header
+      - cookie
+  cloud:
+    gateway:
+      routes:
+        - id: echo
+          uri: dubbo://dubbo-provider/com.github.spring.cloud.dubbo.sample.provider.EchoService/echo
+          predicates:
+            - Path=/echo/**
+          metadata:
+            dubbo:
+              group: default
+              version: 1.0
+              parameterTypes:
+                - java.lang.String
+        - id: rewrite
+          uri: dubbo://dubbo-provider/com.github.spring.cloud.dubbo.sample.provider.EchoService/request
+          metadata:
+            dubbo:
+              group: default
+              version: 1.0
+              parameterTypes:
+                - com.github.spring.cloud.dubbo.sample.provider.Request
+                - com.github.spring.cloud.dubbo.sample.provider.Action
+              rewrite:
+                request:
+                  message: "#body['request']['message']"
+                  target:
+                    name: "#cookie['JSESSIONID']"
+                    id: "#header['Authorization']"
+                  date: 2021-07-01 00:00:00
+                  #attributes: "#body['request']['attributes']"
+                  attributes:
+                    - "#header['Authorization']"
+                    - attr2
+                    - attr3
+                action:
+                  name: request
+                  parameters:
+                    param1: "#auth['user']"
+          predicates:
+            - Path=/rewrite/**
+        - id: request
+          uri: dubbo://dubbo-provider/com.github.spring.cloud.dubbo.sample.provider.EchoService/request
+          metadata:
+            dubbo:
+              group: default
+              version: 1.0
+              parameterTypes:
+                - com.github.spring.cloud.dubbo.sample.provider.Request
+                - com.github.spring.cloud.dubbo.sample.provider.Action
+          predicates:
+            - Path=/request/**
+      discovery:
+        locator:
+          lower-case-service-id: true
+          enabled: true
+server:
+  port: 8085
+dubbo:
+  registry:
+    address: spring-cloud://localhost
+  protocol:
+    id: dubbo
+    port: -1
+logging:
+  level:
+    org.springframework.web: debug
+    org.springframework.cloud: trace
+    org.springframework.http: debug
+    com.github: debug
