@@ -12,9 +12,10 @@ public interface DubboArgumentReader {
 
 
 	/**
-	 * @param exchange
-	 * @param body
-	 * @return
+	 * 读取请求入参
+	 * @param exchange 请求
+	 * @param body     请求体内容
+	 * @return 请求内容
 	 */
 	Object read(ServerWebExchange exchange, DataBuffer body);
 

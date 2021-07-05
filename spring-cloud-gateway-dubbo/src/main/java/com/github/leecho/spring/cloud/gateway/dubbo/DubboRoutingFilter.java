@@ -88,7 +88,7 @@ public class DubboRoutingFilter implements GlobalFilter, Ordered {
 				.map(parameters -> dubboClient.invoke(dubboRoute, parameters))
 				.flatMap(Mono::fromFuture)
 				.map(this::convert)
-				.flatMap(dataBuffer -> this.writer.write(dataBuffer, response));
+				.flatMap(result -> this.writer.write(result, response));
 	}
 
 	/**

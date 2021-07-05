@@ -1,8 +1,9 @@
 package com.github.leecho.spring.cloud.gateway.dubbo.argument;
 
-import com.github.leecho.spring.cloud.gateway.dubbo.rewirte.DubboArgumentRewriter;
+import com.github.leecho.spring.cloud.gateway.dubbo.argument.rewirte.DubboArgumentRewriter;
 import com.github.leecho.spring.cloud.gateway.dubbo.route.DubboRoute;
 import org.springframework.core.io.buffer.DataBuffer;
+import org.springframework.core.io.buffer.DataBufferUtils;
 import org.springframework.web.server.ServerWebExchange;
 
 import java.util.HashMap;
@@ -34,6 +35,7 @@ public class DubboArgumentResolver {
 				return parameters;
 			}
 		}
+		DataBufferUtils.release(body);
 		return new HashMap<>(0);
 	}
 

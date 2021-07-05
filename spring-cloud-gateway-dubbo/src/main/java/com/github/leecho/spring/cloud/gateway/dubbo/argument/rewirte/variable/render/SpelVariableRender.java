@@ -1,6 +1,6 @@
-package com.github.leecho.spring.cloud.gateway.dubbo.rewirte.variable.render;
+package com.github.leecho.spring.cloud.gateway.dubbo.argument.rewirte.variable.render;
 
-import com.github.leecho.spring.cloud.gateway.dubbo.rewirte.RewriteContext;
+import com.github.leecho.spring.cloud.gateway.dubbo.argument.rewirte.variable.VariableRenderContext;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.expression.EvaluationContext;
 import org.springframework.expression.Expression;
@@ -24,18 +24,18 @@ public class SpelVariableRender implements VariableRender {
 	private final ExpressionParser parser = new SpelExpressionParser();
 
 	@Override
-	public Map<String, Object> render(Map<String, Object> template, RewriteContext rewriteContext) {
+	public Map<String, Object> render(Map<String, Object> template, VariableRenderContext variableRenderContext) {
 		EvaluationContext context = new StandardEvaluationContext();
-		rewriteContext.getVariables()
+		variableRenderContext.getVariables()
 				.forEach(context::setVariable);
 		return this.parseMap(parser, template, context);
 	}
 
 	/**
-	 * @param parser
-	 * @param map
-	 * @param context
-	 * @return
+	 * @param parser 解析器
+	 * @param map map入参
+	 * @param context context
+	 * @return 结果
 	 */
 	private Map<String, Object> parseMap(ExpressionParser parser, Map<String, Object> map, EvaluationContext context) {
 		Map<String, Object> result = new HashMap<>(map.size());
@@ -67,18 +67,18 @@ public class SpelVariableRender implements VariableRender {
 				.toArray();
 	}
 
-
 	/**
 	 * @param parser
 	 * @param target
 	 * @param context
 	 * @return
 	 */
+	@SuppressWarnings({"unchecked"})
 	private Object parse(ExpressionParser parser, Object target, EvaluationContext context) {
 		if (target instanceof Map) {
 			return this.parseMap(parser, (Map<String, Object>) target, context);
 		} else if (target instanceof Collection) {
-			return this.parseCollection(parser, (Collection) target, context);
+			return this.parseCollection(parser, (Collection<Object>) target, context);
 		} else if (target.getClass().isArray()) {
 			return this.parseArray(parser, (Object[]) target, context);
 		} else if (target.getClass().equals(String.class)) {

@@ -1,6 +1,6 @@
-package com.github.leecho.spring.cloud.gateway.dubbo.rewirte.variable.process;
+package com.github.leecho.spring.cloud.gateway.dubbo.argument.rewirte.variable.loader;
 
-import com.github.leecho.spring.cloud.gateway.dubbo.rewirte.RewriteContext;
+import com.github.leecho.spring.cloud.gateway.dubbo.argument.rewirte.variable.VariableRenderContext;
 import org.springframework.http.HttpCookie;
 
 import java.util.Map;
@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 public class CookieVariableLoader implements VariableLoader {
 
 	@Override
-	public void load(RewriteContext context) {
+	public void load(VariableRenderContext context) {
 		Map<String, String> cookies = context.getExchange()
 				.getRequest()
 				.getCookies()

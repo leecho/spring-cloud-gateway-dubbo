@@ -1,6 +1,6 @@
-package com.github.leecho.spring.cloud.gateway.dubbo.rewirte.variable.render;
+package com.github.leecho.spring.cloud.gateway.dubbo.argument.rewirte.variable.render;
 
-import com.github.leecho.spring.cloud.gateway.dubbo.rewirte.RewriteContext;
+import com.github.leecho.spring.cloud.gateway.dubbo.argument.rewirte.variable.VariableRenderContext;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -34,23 +34,23 @@ class VelocityVariableRenderTest {
 		arguments.put("body", "$body.text");
 		arguments.put("array",new String[]{"$query.param","$body.foo"});
 
-		RewriteContext rewriteContext = new RewriteContext(null,null);
+		VariableRenderContext variableRenderContext = new VariableRenderContext(null,null);
 		Map<String, Object> header = new HashMap<>();
 		header.put("name", "name1");
-		rewriteContext.setVariable("header",header);
+		variableRenderContext.setVariable("header",header);
 		Map<String, Object> query = new HashMap<>();
 		query.put("value", "value1");
 		query.put("param", "param1");
 
-		rewriteContext.setVariable("query",query);
+		variableRenderContext.setVariable("query",query);
 
 		Map<String, Object> body = new HashMap<>();
 		body.put("text", "body1");
 		body.put("foo", "bar");
-		rewriteContext.setVariable("body",body);
+		variableRenderContext.setVariable("body",body);
 
 
-		Map<String, Object> result = rewriterRender.render(arguments, rewriteContext);
+		Map<String, Object> result = rewriterRender.render(arguments, variableRenderContext);
 		System.out.println(result);
 
 	}
@@ -60,15 +60,15 @@ class VelocityVariableRenderTest {
 		Map<String, Object> template = new HashMap<>();
 		template.put("name", "$.header.name");
 
-		RewriteContext rewriteContext = new RewriteContext(null, null);
+		VariableRenderContext variableRenderContext = new VariableRenderContext(null, null);
 		Map<String, Object> header = new HashMap<>();
 		header.put("name", "name1");
 		List<String> query = new ArrayList<>();
 		query.add("abc");
-		rewriteContext.setVariable("header",header);
-		rewriteContext.setVariable("query",query);
+		variableRenderContext.setVariable("header",header);
+		variableRenderContext.setVariable("query",query);
 
-		Map<String, Object> result = rewriterRender.render(template, rewriteContext);
+		Map<String, Object> result = rewriterRender.render(template, variableRenderContext);
 		System.out.println(result);
 
 	}

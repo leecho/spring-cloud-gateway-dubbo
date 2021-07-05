@@ -1,6 +1,6 @@
-package com.github.leecho.spring.cloud.gateway.dubbo.rewirte.variable.process;
+package com.github.leecho.spring.cloud.gateway.dubbo.argument.rewirte.variable.loader;
 
-import com.github.leecho.spring.cloud.gateway.dubbo.rewirte.RewriteContext;
+import com.github.leecho.spring.cloud.gateway.dubbo.argument.rewirte.variable.VariableRenderContext;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -19,7 +19,7 @@ public class HeaderVariableLoader implements VariableLoader {
 
 
 	@Override
-	public void load(RewriteContext context) {
+	public void load(VariableRenderContext context) {
 		Map<String, String> headers = context.getExchange()
 				.getRequest()
 				.getHeaders()

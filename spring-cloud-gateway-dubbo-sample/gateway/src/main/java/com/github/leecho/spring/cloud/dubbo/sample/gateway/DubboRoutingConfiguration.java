@@ -2,7 +2,7 @@ package com.github.leecho.spring.cloud.dubbo.sample.gateway;
 
 import com.github.leecho.spring.cloud.gateway.dubbo.message.DubboMessageConverter;
 import com.github.leecho.spring.cloud.gateway.dubbo.client.DubboGenericServiceCache;
-import com.github.leecho.spring.cloud.gateway.dubbo.rewirte.variable.process.VariableLoader;
+import com.github.leecho.spring.cloud.gateway.dubbo.argument.rewirte.variable.loader.VariableLoader;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
