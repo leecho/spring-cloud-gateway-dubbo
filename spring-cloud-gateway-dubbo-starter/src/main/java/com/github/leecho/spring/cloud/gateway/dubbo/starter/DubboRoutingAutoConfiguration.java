@@ -53,8 +53,11 @@ public class DubboRoutingAutoConfiguration {
 
 	@Bean
 	@ConditionalOnMissingBean(DubboClient.class)
-	public DubboClient dubboClient(@Autowired(required = false) DubboGenericServiceCache genericServiceCache) {
-		return new DefaultDubboClient(genericServiceCache);
+	public DubboClient dubboClient(@Autowired(required = false) DubboGenericServiceCache genericServiceCache,
+								   DubboRoutingProperties dubboRoutingProperties) {
+		DefaultDubboClient defaultDubboClient = new DefaultDubboClient(genericServiceCache);
+		defaultDubboClient.setInvokeAsync(dubboRoutingProperties.getInvokeAsync());
+		return defaultDubboClient;
 	}
 
 	@Bean

@@ -1,11 +1,15 @@
 package com.github.leecho.spring.cloud.gateway.dubbo.starter;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
  * @author LIQIU
  * @date 2021/7/2 18:45
  */
+@Getter
+@Setter
 @ConfigurationProperties(DubboRoutingProperties.PREFIX)
 public class DubboRoutingProperties {
 
@@ -13,22 +17,8 @@ public class DubboRoutingProperties {
 
 	private String rewriteRender;
 
+	private Boolean invokeAsync;
+
 	// TODO: 2021/7/5 自定义内置参数加载器，暂未实现
 	private Object variables ;
-
-	public String getRewriteRender() {
-		return rewriteRender;
-	}
-
-	public void setRewriteRender(String rewriteRender) {
-		this.rewriteRender = rewriteRender;
-	}
-
-	public Object getVariables() {
-		return variables;
-	}
-
-	public void setVariables(Object variables) {
-		this.variables = variables;
-	}
 }
