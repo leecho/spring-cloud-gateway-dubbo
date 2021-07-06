@@ -21,10 +21,11 @@ public class JacksonDubboMessageWriter implements DubboMessageWriter {
 
 	@Override
 	public Mono<Void> write(Object result, ServerHttpResponse response) {
-		DataBuffer dataBuffer = encoder.encodeValue(result, response.bufferFactory(), ResolvableType.forClass(String.class), MimeTypeUtils.APPLICATION_JSON, null);
-		response.getHeaders().add("Content-Type", MimeTypeUtils.APPLICATION_JSON_VALUE);
-		Mono<Void> mono = response.writeWith(Mono.justOrEmpty(dataBuffer));
-		DataBufferUtils.release(dataBuffer);
-		return mono;
+		if (result != null) {
+			DataBuffer dataBuffer = encoder.encodeValue(result, response.bufferFactory(), ResolvableType.forClass(String.class), MimeTypeUtils.APPLICATION_JSON, null);
+			response.getHeaders().add("Content-Type", MimeTypeUtils.APPLICATION_JSON_VALUE);
+			return response.writeWith(Mono.justOrEmpty(dataBuffer));
+		}
+		return Mono.empty();
 	}
 }
