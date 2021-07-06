@@ -1,9 +1,9 @@
 package com.github.leecho.spring.cloud.gateway.dubbo.client;
 
 import com.github.leecho.spring.cloud.gateway.dubbo.route.DubboRoute;
+import reactor.core.publisher.Mono;
 
 import java.util.Map;
-import java.util.concurrent.CompletableFuture;
 
 /**
  * Dubbo 调用客户端
@@ -18,5 +18,5 @@ public interface DubboClient {
 	 * @param parameters 参数
 	 * @return 结果
 	 */
-	CompletableFuture<Object> invoke(DubboRoute invocation, Map<String, Object> parameters);
+	Mono<Object> invoke(DubboRoute invocation, Map<String, Object> parameters);
 }

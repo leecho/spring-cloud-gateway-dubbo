@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.spring.ReferenceBean;
 import org.apache.dubbo.rpc.RpcException;
 import org.apache.dubbo.rpc.service.GenericService;
+import reactor.core.publisher.Mono;
 
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
@@ -19,18 +20,26 @@ public class DefaultDubboClient implements DubboClient {
 
 	private final DubboGenericServiceCache dubboGenericServiceCache;
 
+	private Boolean invokeAsync;
+
 	public DefaultDubboClient(DubboGenericServiceCache dubboGenericServiceCache) {
 		this.dubboGenericServiceCache = dubboGenericServiceCache;
 	}
 
 	@Override
-	public CompletableFuture<Object> invoke(DubboRoute invocation, Map<String, Object> parameters) {
+	public Mono<Object> invoke(DubboRoute invocation, Map<String, Object> parameters) {
 		try {
 			log.info("Invoke dubbo service , parameters: {}", parameters);
 			GenericService genericService = this.loadGenericService(invocation.getDubboInterface());
-			CompletableFuture<Object> result = genericService.$invokeAsync(invocation.getMethod(), invocation.getParameterTypes(), parameters.values().toArray(new Object[]{}));
-			log.info("Invoke dubbo service success, result: {}", result);
-			return result;
+			if (Boolean.TRUE.equals(invokeAsync)) {
+				CompletableFuture<Object> result = genericService.$invokeAsync(invocation.getMethod(), invocation.getParameterTypes(), parameters.values().toArray(new Object[]{}));
+				log.info("Async invoke dubbo service success, result: {}", result);
+				return Mono.fromFuture(result);
+			} else {
+				Object result = genericService.$invoke(invocation.getMethod(), invocation.getParameterTypes(), parameters.values().toArray(new Object[]{}));
+				log.info("Invoke dubbo service success, result: {}", result);
+				return Mono.just(result);
+			}
 		} catch (Throwable e) {
 			log.error("Invoke dubbo fail:", e);
 			throw new RpcException(e.getMessage(), e);
@@ -70,7 +79,11 @@ public class DefaultDubboClient implements DubboClient {
 		referenceBean.setGroup(dubboInterface.getGroup());
 		referenceBean.setCheck(false);
 		referenceBean.setRetries(0);
-		referenceBean.setAsync(true);
+		referenceBean.setAsync(Boolean.TRUE.equals(invokeAsync));
 		return referenceBean;
+	}
+
+	public void setInvokeAsync(Boolean invokeAsync) {
+		this.invokeAsync = invokeAsync;
 	}
 }

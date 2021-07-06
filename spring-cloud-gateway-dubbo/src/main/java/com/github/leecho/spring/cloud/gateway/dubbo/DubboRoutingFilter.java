@@ -85,8 +85,7 @@ public class DubboRoutingFilter implements GlobalFilter, Ordered {
 
 		return DataBufferUtils.join(exchange.getRequest().getBody())
 				.map(dataBuffer -> resolver.resolve(dubboRoute, exchange, dataBuffer))
-				.map(parameters -> dubboClient.invoke(dubboRoute, parameters))
-				.flatMap(Mono::fromFuture)
+				.flatMap(parameters -> dubboClient.invoke(dubboRoute, parameters))
 				.map(this::convert)
 				.flatMap(result -> this.writer.write(result, response));
 	}
