@@ -1,5 +1,6 @@
 package com.github.leecho.spring.cloud.gateway.dubbo;
 
+import com.github.leecho.spring.cloud.gateway.dubbo.route.DefaultDubboRouteFactory;
 import com.github.leecho.spring.cloud.gateway.dubbo.route.DubboRoute;
 import org.junit.jupiter.api.Test;
 import org.springframework.cloud.gateway.route.Route;
@@ -20,6 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  */
 class DubboRouteTest {
 
+	private DefaultDubboRouteFactory dubboRouteFactory = new DefaultDubboRouteFactory();
 
 	@Test
 	void testSimple() throws URISyntaxException {
@@ -35,7 +37,7 @@ class DubboRouteTest {
 				.asyncPredicate(exchange -> null).build();
 
 
-		DubboRoute dubboRoute = DubboRoute.of(route);
+		DubboRoute dubboRoute = dubboRouteFactory.get(route);
 		DubboRoute.DubboInterface dubboInterface = dubboRoute.getDubboInterface();
 		assertEquals(dubboInterface.getServiceName(),"dubbo-provider");
 		assertEquals(dubboInterface.getInterfaceClass(),"com.jczh.auth.resource.dubbo.EchoService");
@@ -53,7 +55,7 @@ class DubboRouteTest {
 				.uri(new URI("dubbo://dubbo-provider/com.jczh.auth.resource.dubbo.EchoService:default:0.0.1/request"))
 				.metadata(DubboRoute.PARAMETER_TYPES_KEY, Arrays.asList("com.github.spring.cloud.dubbo.sample.provider.EchoRequest","java.lang.String"))
 				.build();
-		DubboRoute dubboRoute = DubboRoute.of(route);
+		DubboRoute dubboRoute = dubboRouteFactory.get(route);
 		assertEquals(dubboRoute.getParameterTypes().length,2);
 	}
 
@@ -66,7 +68,7 @@ class DubboRouteTest {
 				.uri(new URI("dubbo://dubbo-provider/com.jczh.auth.resource.dubbo.EchoService:default:0.0.1/request?parameterTypes=java.lang.String&p=2"))
 				.metadata(DubboRoute.PARAMETER_TYPES_KEY, Arrays.asList("com.github.spring.cloud.dubbo.sample.provider.EchoRequest","java.lang.String"))
 				.build();
-		DubboRoute dubboRoute = DubboRoute.of(route);
+		DubboRoute dubboRoute = dubboRouteFactory.get(route);
 		assertEquals(dubboRoute.getParameterTypes().length,1);
 	}
 
@@ -83,8 +85,8 @@ class DubboRouteTest {
 				.and(predicate)
 				.uri(new URI("dubbo://dubbo-provider/com.jczh.auth.resource.dubbo.EchoService:default:0.0.1/echo"))
 				.build();
-		DubboRoute dubboRoute = DubboRoute.of(route);
-		DubboRoute dubboRoute1 = DubboRoute.of(route2);
+		DubboRoute dubboRoute = dubboRouteFactory.get(route);
+		DubboRoute dubboRoute1 = dubboRouteFactory.get(route2);
 		assertEquals(dubboRoute.getDubboInterface(), dubboRoute1.getDubboInterface());
 
 	}
