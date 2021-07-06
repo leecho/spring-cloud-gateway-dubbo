@@ -63,8 +63,8 @@ dubbo路由uri结构：dubbo://{serviceName}/{interfaceClass}/{method}，dubbo�
       group: default
       version: 1.0
       parameterTypes:
-        - Request
-        - Action
+        - com.github.leecho.spring.cloud.dubbo.sample.provider.Action
+        - com.github.leecho.spring.cloud.dubbo.sample.provider.Request
       rewrite:
         request:
           message: "#body['request']['message']"
