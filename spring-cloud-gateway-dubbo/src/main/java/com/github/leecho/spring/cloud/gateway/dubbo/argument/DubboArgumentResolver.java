@@ -28,6 +28,7 @@ public class DubboArgumentResolver {
 	@SuppressWarnings({"unchecked"})
 	public Map<String, Object> resolve(DubboRoute definition, ServerWebExchange exchange, DataBuffer body) {
 		Map<String, Object> parameters = (Map<String, Object>) reader.read(exchange, body);
+		DataBufferUtils.release(body);
 		if (parameters != null) {
 			if (definition.getRewrite() != null && definition.getRewrite().size() > 0) {
 				return rewriter.rewrite(definition.getRewrite(), exchange, parameters);
@@ -35,7 +36,6 @@ public class DubboArgumentResolver {
 				return parameters;
 			}
 		}
-		DataBufferUtils.release(body);
 		return new HashMap<>(0);
 	}
 
