@@ -32,8 +32,8 @@ public class SpelVariableRender implements VariableRender {
 	}
 
 	/**
-	 * @param parser 解析器
-	 * @param map map入参
+	 * @param parser  解析器
+	 * @param map     map入参
 	 * @param context context
 	 * @return 结果
 	 */
@@ -44,10 +44,10 @@ public class SpelVariableRender implements VariableRender {
 	}
 
 	/**
-	 * @param parser
-	 * @param collection
-	 * @param context
-	 * @return
+	 * @param parser     解析器
+	 * @param collection 集合
+	 * @param context    context
+	 * @return 结果
 	 */
 	private Collection<Object> parseCollection(ExpressionParser parser, Collection<Object> collection, EvaluationContext context) {
 		return collection.stream()
@@ -56,10 +56,10 @@ public class SpelVariableRender implements VariableRender {
 	}
 
 	/**
-	 * @param parser
-	 * @param array
-	 * @param context
-	 * @return
+	 * @param parser  解析器
+	 * @param array   数组
+	 * @param context context
+	 * @return 结果
 	 */
 	private Object[] parseArray(ExpressionParser parser, Object[] array, EvaluationContext context) {
 		return Stream.of(array)
@@ -68,10 +68,10 @@ public class SpelVariableRender implements VariableRender {
 	}
 
 	/**
-	 * @param parser
-	 * @param target
-	 * @param context
-	 * @return
+	 * @param parser  解析器
+	 * @param target  对象
+	 * @param context context
+	 * @return 结果
 	 */
 	@SuppressWarnings({"unchecked"})
 	private Object parse(ExpressionParser parser, Object target, EvaluationContext context) {
@@ -93,15 +93,17 @@ public class SpelVariableRender implements VariableRender {
 	}
 
 	/**
-	 * @param parser
-	 * @param expression
-	 * @param context
-	 * @return
+	 * @param parser     解析器
+	 * @param expression 表达式
+	 * @param context    上下文
+	 * @return 结果
 	 */
 	private Object parse(ExpressionParser parser, String expression, EvaluationContext context) {
 		Expression expression1 = parser.parseExpression(expression);
 		Object value = expression1.getValue(context);
-		log.debug("parse expression: {}, result: {}", expression, value);
+		if (log.isInfoEnabled()) {
+			log.debug("Parse expression: {}, result: {}", expression, value);
+		}
 		if (value != null && value.toString().equals(expression)) {
 			return null;
 		}
