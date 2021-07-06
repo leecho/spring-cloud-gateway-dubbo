@@ -56,7 +56,8 @@ public class DubboRoutingAutoConfiguration {
 	public DubboClient dubboClient(@Autowired(required = false) DubboGenericServiceCache genericServiceCache,
 								   DubboRoutingProperties dubboRoutingProperties) {
 		DefaultDubboClient defaultDubboClient = new DefaultDubboClient(genericServiceCache);
-		defaultDubboClient.setInvokeAsync(dubboRoutingProperties.getInvokeAsync());
+		DubboRoutingProperties.Client client = dubboRoutingProperties.getClient();
+		defaultDubboClient.setInvokeAsync(client != null ? client.getInvokeAsync() : null);
 		return defaultDubboClient;
 	}
 

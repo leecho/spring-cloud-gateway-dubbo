@@ -4,6 +4,8 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
+import java.util.List;
+
 /**
  * @author LIQIU
  * @date 2021/7/2 18:45
@@ -15,10 +17,19 @@ public class DubboRoutingProperties {
 
 	public final static String PREFIX = "spring.cloud.gateway.dubbo";
 
-	private String rewriteRender;
+	private Client client;
 
-	private Boolean invokeAsync;
+	private Rewrite rewrite;
 
-	// TODO: 2021/7/5 自定义内置参数加载器，暂未实现
-	private Object variables ;
+	@Getter
+	@Setter
+	public static class Client{
+		private Boolean invokeAsync;
+	}
+
+	@Getter
+	@Setter
+	public static class Rewrite{
+		private String render;
+	}
 }
