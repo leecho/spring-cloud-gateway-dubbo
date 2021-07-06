@@ -16,6 +16,7 @@ import java.util.concurrent.ExecutionException;
 /**
  * @author LIQIU
  * @date 2021/7/1 15:33
+ * FIXME: 2021/7/6 该缓存还存在问题，1、无法有效销毁Consumer，2、过期策略未触发
  */
 @Slf4j
 public class GuavaDubboGenericServiceCache implements DubboGenericServiceCache {
@@ -29,7 +30,7 @@ public class GuavaDubboGenericServiceCache implements DubboGenericServiceCache {
 				.removalListener((RemovalListener<String, Optional<ReferenceBean<GenericService>>>) removalNotification -> {
 					removalNotification.getValue().ifPresent(referenceBean -> {
 						if (log.isDebugEnabled()) {
-							log.debug("dubbo genericService {} destroyed", referenceBean.getInterface());
+							log.debug("Destroy dubbo genericService {}", referenceBean.getInterface());
 						}
 						ReferenceConfigCache.getCache().destroy(referenceBean);
 					});
